@@ -11,7 +11,7 @@ echo "Disabling bazzite-autologin service"
 systemctl disable bazzite-autologin.service
 
 # Optional: To remove the on-screen keyboard from the login screen, remove the '#' from the line below
-# rm /etc/sddm.conf.d/virtualkbd.conf
+rm /etc/sddm.conf.d/virtualkbd.conf
 
 # Optional: To enable desktop-mode auto-updates, remove the '#' from the line below
-# systemctl enable ublue-update.timer
+systemctl enable ublue-update.timer
