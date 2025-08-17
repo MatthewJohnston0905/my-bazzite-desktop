@@ -1,17 +1,14 @@
 #!/bin/bash
 
-# This script is executed during the image build process.
-
 set -oue pipefail
 
-echo "Removing steamos autologin config"
-rm /etc/sddm.conf.d/steamos.conf
+# Forcefully remove the sddm config file for steamos, ignoring errors if it doesn't exist.
+rm -f /etc/sddm.conf.d/steamos.conf
 
-echo "Disabling bazzite-autologin service"
+# This is a workaround for running systemctl in a container.
+# We create a dummy file for the service so the disable command can succeed.
+mkdir -p /etc/systemd/system/multi-user.target.wants/
+touch /etc/systemd/system/multi-user.target.wants/bazzite-autologin.service
+
+# Disable the autologin service.
 systemctl disable bazzite-autologin.service
-
-# Optional: To remove the on-screen keyboard from the login screen, remove the '#' from the line below
-rm /etc/sddm.conf.d/virtualkbd.conf
-
-# Optional: To enable desktop-mode auto-updates, remove the '#' from the line below
-systemctl enable ublue-update.timer
